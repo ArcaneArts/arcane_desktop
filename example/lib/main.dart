@@ -1,7 +1,3 @@
-
-## Usage
-
-```dart
 import 'package:arcane/arcane.dart';
 import 'package:arcane_desktop/arcane_desktop.dart';
 
@@ -12,6 +8,7 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) => ArcaneApp(home: const HomeScreen());
 }
@@ -34,4 +31,3 @@ class HomeScreen extends StatelessWidget {
     ),
   );
 }
-```
