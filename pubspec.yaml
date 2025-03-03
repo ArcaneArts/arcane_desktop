@@ -1,6 +1,6 @@
 name: arcane_desktop
 description: "Desktop utilities for arcane design"
-version: 1.0.0
+version: 1.0.1
 repository: https://github.com/ArcaneArts/arcane_desktop
 environment:
   sdk: ^3.7.0

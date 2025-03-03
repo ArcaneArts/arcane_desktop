@@ -94,20 +94,25 @@ void runWindowApp(
   runApp(
     Pylon<InjectBarHeader?>(
       value: InjectBarHeader(
-        header: (context) => TitleBar(
-          title: AWM.barTitle?.call(context) ?? SizedBox.shrink(),
-          leading: AWM.barLeading?.call(context),
-          surfaceColor: Theme.of(context).colorScheme.foreground,
-          color: Colors.transparent,
-          theme: Platform.isMacOS ? PlatformTheme.mac : PlatformTheme.windows,
-          onMaximize: () => windowManager.maximize(),
-          onClose: () => AWM.tray != null
-              ? windowManager.hide()
-              : windowManager.destroy().then((_) => exit(0)),
-          onStartDragging: () => windowManager.startDragging(),
-          onUnMaximize: () => windowManager.unmaximize(),
-          isMaximized: () => windowManager.isMaximized(),
-        ),
+        header:
+            (context) => TitleBar(
+              title: AWM.barTitle?.call(context) ?? SizedBox.shrink(),
+              leading: AWM.barLeading?.call(context),
+              surfaceColor: Theme.of(context).colorScheme.foreground,
+              color: Colors.transparent,
+              theme:
+                  Platform.isMacOS ? PlatformTheme.mac : PlatformTheme.windows,
+              onMaximize: () => windowManager.maximize(),
+              onClose:
+                  () =>
+                      AWM.tray != null
+                          ? windowManager.hide()
+                          : windowManager.destroy().then((_) => exit(0)),
+              onStartDragging: () => windowManager.startDragging(),
+              onUnMaximize: () => windowManager.unmaximize(),
+              isMaximized: () => windowManager.isMaximized(),
+              onMinimize: () => windowManager.minimize(),
+            ),
       ),
       builder: (context) => app,
     ),

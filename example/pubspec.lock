@@ -5,10 +5,10 @@ packages:
     dependency: transitive
     description:
       name: arcane
-      sha256: "58f072a267be4125d99ddd73704ff59f93c00ebeb8392c4212f7cd51cbd645b2"
+      sha256: "3305a791c51b892fd3b1cd14de145077bcbb63cc2fa7317c78b47aa11cfc0fbf"
       url: "https://pub.dev"
     source: hosted
-    version: "3.13.2+3"
+    version: "4.0.1"
   arcane_desktop:
     dependency: "direct main"
     description:
@@ -52,10 +52,10 @@ packages:
     dependency: transitive
     description:
       name: bar
-      sha256: bb69b7aaee95ed262cba8f3adbeb990423ff7700e127858e0ab4d38353c8be8d
+      sha256: d93718c2db0da5146daa98e6596209983a53d66453efa35559264540fd09d83b
       url: "https://pub.dev"
     source: hosted
-    version: "1.0.0"
+    version: "1.0.1"
   beamer:
     dependency: transitive
     description:
