@@ -4,16 +4,15 @@ version: 1.0.0
 repository: https://github.com/ArcaneArts/arcane_desktop
 environment:
   sdk: ^3.7.0
-
 dependencies:
   flutter:
     sdk: flutter
-  arcane: ^3.13.2+3
-  window_manager: ^0.4.3
-  system_tray: ^2.0.3
-  screen_retriever: ^0.2.0
-  flutter_acrylic: ^1.1.4
-  bar: ^1.0.0
+  arcane: ">=4.0.0 <5.0.0"
+  window_manager: ">=0.4.0 <1.0.0"
+  system_tray: ">=2.0.3"
+  screen_retriever: ">=0.2.0"
+  flutter_acrylic: ">=1.1.4"
+  bar: ">=1.0.1 <2.0.0"
 dev_dependencies:
   flutter_test:
     sdk: flutter
