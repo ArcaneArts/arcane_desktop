@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:arcane/arcane.dart';
+import 'package:arcane/arcane.dart' hide Window;
 import 'package:bar/bar.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:system_tray/system_tray.dart';
@@ -111,6 +111,7 @@ void runWindowApp(
               onStartDragging: () => windowManager.startDragging(),
               onUnMaximize: () => windowManager.unmaximize(),
               isMaximized: () => windowManager.isMaximized(),
+              onMinimize: () => windowManager.minimize(),
             ),
       ),
       builder: (context) => app,
