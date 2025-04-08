@@ -6,7 +6,10 @@ import 'package:arcane/arcane.dart';
 import 'package:arcane_desktop/arcane_desktop.dart';
 
 void main() {
-  runWindowApp(const MyApp(), barTitle: (context) => Text("Arcane VFS"));
+  runApp(ArcaneWindow(
+    child: const MyApp(),
+      barTitle: (context) => Text("Arcane VFS") 
+  ));
 }
 
 class MyApp extends StatelessWidget {
