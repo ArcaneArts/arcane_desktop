@@ -1,15 +1,15 @@
 name: arcane_desktop
 description: "Desktop utilities for arcane design"
-version: 2.0.0
+version: 2.1.0
 repository: https://github.com/ArcaneArts/arcane_desktop
 environment:
   sdk: ^3.7.0
 dependencies:
   flutter:
     sdk: flutter
-  arcane: ">=5.2.1 <6.0.0"
+  arcane: ">=6.0.2 <7.0.0"
   window_manager: ">=0.4.0 <1.0.0"
-  system_tray: ">=2.0.3 <3.0.0"
+  tray_manager: ">=0.5.1 <1.0.0"
   screen_retriever: ">=0.2.0 <1.0.0"
   flutter_acrylic: ">=1.1.4 <2.0.0"
   bar: ">=1.0.1 <2.0.0"

@@ -1,60 +1,59 @@
 import 'dart:io';
 
-import 'package:arcane/arcane.dart' hide Window;
+import 'package:arcane/arcane.dart' hide Window, MenuItem;
 import 'package:bar/bar.dart';
 import 'package:flutter_acrylic/flutter_acrylic.dart';
 import 'package:serviced/serviced.dart';
-import 'package:system_tray/system_tray.dart';
+import 'package:tray_manager/tray_manager.dart';
 import 'package:window_manager/window_manager.dart';
 
 class AWM {
-  static SystemTray? tray;
+  static TrayManager? tray;
   static Menu? trayMenu;
   static PylonBuilder? barTitle;
   static PylonBuilder? barLeading;
 }
 
+class ArcaneTrayListener with TrayListener {
+  @override
+  void onTrayIconMouseDown() {
+    windowManager.show();
+  }
+
+  @override
+  void onTrayIconRightMouseDown() {
+    if (Platform.isMacOS) {
+      trayManager.popUpContextMenu();
+    }
+  }
+
+  @override
+  void onTrayMenuItemClick(MenuItem menuItem) {
+    if (menuItem.key == 'exit') {
+      windowManager.destroy().then((_) => exit(0));
+    }
+    // Handle custom menu items via keys if needed
+  }
+}
+
 class ArcaneTray {
   final String iconPath;
   final String tooltip;
-  final List<MenuItemBase> menu;
+  final List<MenuItem> menu;
 
-  ArcaneTray({
-    required this.iconPath,
-    required this.tooltip,
-    this.menu = const [],
-  });
+  ArcaneTray({required this.iconPath, required this.tooltip, this.menu = const []});
 
-  Future<SystemTray> init() async {
-    SystemTray tray = SystemTray();
-    await tray.initSystemTray(
-      iconPath: iconPath,
-      isTemplate: true,
-      toolTip: tooltip,
-    );
-    await tray.setContextMenu(await initMenu());
-    tray.registerSystemTrayEventHandler((eventName) {
-      if (eventName == kSystemTrayEventClick) {
-        windowManager.show();
-      } else if (eventName == kSystemTrayEventRightClick) {
-        tray.popUpContextMenu();
-      }
-    });
-
-    AWM.tray = tray;
-    return tray;
+  Future<void> init() async {
+    await trayManager.setIcon(iconPath);
+    await trayManager.setToolTip(tooltip);
+    Menu menu = initMenu();
+    await trayManager.setContextMenu(menu);
+    trayManager.addListener(ArcaneTrayListener());
+    AWM.tray = trayManager;
   }
 
-  Future<Menu> initMenu() async {
-    Menu menu = Menu();
-    await menu.buildFrom([
-      ...this.menu,
-      MenuItemLabel(
-        label: 'Exit',
-        onClicked: (menuItem) => windowManager.destroy().then((_) => exit(0)),
-      ),
-    ]);
-
+  Menu initMenu() {
+    Menu menu = Menu(items: [...this.menu, MenuItem(key: 'exit', label: 'Exit')]);
     AWM.trayMenu = menu;
     return menu;
   }
@@ -72,20 +71,7 @@ class ArcaneWindow extends StatelessWidget with MagicInitializer {
   @override
   final Widget child;
 
-  const ArcaneWindow({
-    super.key,
-    this.tray,
-    this.windowListener,
-    this.windowOptions = const WindowOptions(
-      titleBarStyle: TitleBarStyle.hidden,
-      windowButtonVisibility: false,
-    ),
-    this.windowEffect,
-    this.windowColor,
-    this.barTitle,
-    this.barLeading,
-    required this.child,
-  });
+  const ArcaneWindow({super.key, this.tray, this.windowListener, this.windowOptions = const WindowOptions(titleBarStyle: TitleBarStyle.hidden, windowButtonVisibility: false), this.windowEffect, this.windowColor, this.barTitle, this.barLeading, required this.child});
 
   @override
   Widget build(BuildContext context) => Pylon<InjectBarHeader?>(
@@ -98,11 +84,7 @@ class ArcaneWindow extends StatelessWidget with MagicInitializer {
             color: Colors.transparent,
             theme: Platform.isMacOS ? PlatformTheme.mac : PlatformTheme.windows,
             onMaximize: () => windowManager.maximize(),
-            onClose:
-                () =>
-                    AWM.tray != null
-                        ? windowManager.hide()
-                        : windowManager.destroy().then((_) => exit(0)),
+            onClose: () => AWM.tray != null ? windowManager.hide() : windowManager.destroy().then((_) => exit(0)),
             onStartDragging: () => windowManager.startDragging(),
             onUnMaximize: () => windowManager.unmaximize(),
             isMaximized: () => windowManager.isMaximized(),
@@ -127,10 +109,7 @@ class ArcaneWindow extends StatelessWidget with MagicInitializer {
 
     windowManager.waitUntilReadyToShow(windowOptions, () async {
       await windowManager.setBackgroundColor(Colors.transparent);
-      await Window.setEffect(
-        effect: windowEffect ?? WindowEffect.menu,
-        color: windowColor ?? const Color(0x00000000),
-      );
+      await Window.setEffect(effect: windowEffect ?? WindowEffect.menu, color: windowColor ?? const Color(0x00000000));
     });
   });
 }
